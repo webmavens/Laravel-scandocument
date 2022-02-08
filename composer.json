@@ -1,0 +1,68 @@
+{
+    "name": "webmavens/laravelscandocument",
+    "description": "This will send to textract for scanning image.",
+    "keywords": [
+        "webmavens",
+        "laravel",
+        "laravelscandocument"
+    ],
+    "homepage": "https://github.com/webmavens/laravelscandocument",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "webmavens",
+            "email": "info@webmavens.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "aws/aws-php-sns-message-validator": "^1.6",
+        "aws/aws-sdk-php": "^3.209",
+        "illuminate/contracts": "^8.73",
+        "spatie/laravel-package-tools": "^1.9.2"
+    },
+    "require-dev": {
+        "nunomaduro/collision": "^5.10",
+        "nunomaduro/larastan": "^1.0",
+        "orchestra/testbench": "^6.22",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "spatie/laravel-ray": "^1.26"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webmavens\\LaravelScandocument\\": "src",
+            "Webmavens\\LaravelScandocument\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webmavens\\LaravelScandocument\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webmavens\\LaravelScandocument\\LaravelScandocumentServiceProvider"
+            ],
+            "aliases": {
+                "LaravelScandocument": "Webmavens\\LaravelScandocument\\Facades\\LaravelScandocument"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
