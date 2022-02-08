@@ -2,8 +2,6 @@
 
 namespace Webmavens\LaravelScandocument;
 
-use Webmavens\LaravelScandocument\Config\AwsCredentialsConfig;
-use Aws\S3\S3Client;
 use Aws\Sns\Message;
 use Webmavens\LaravelScandocument\Services\LaravelScandocumentService;
 
