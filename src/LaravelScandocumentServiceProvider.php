@@ -4,7 +4,6 @@ namespace Webmavens\LaravelScandocument;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Webmavens\LaravelScandocument\Commands\LaravelScandocumentCommand;
 
 class LaravelScandocumentServiceProvider extends PackageServiceProvider
 {
@@ -17,6 +16,8 @@ class LaravelScandocumentServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravelscandocument')
-            ->hasConfigFile();
+            ->hasConfigFile()
+            ->hasMigration('create_laravelscandocument_table')
+            ->hasRoute('web');
     }
 }

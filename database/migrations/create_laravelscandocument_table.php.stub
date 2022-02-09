@@ -8,12 +8,17 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravelscandocument_table', function (Blueprint $table) {
+        Schema::create('laravel_scandocument_data', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->string('path');
+            $table->string('jobid')->nullable();
+            $table->longtext('data')->nullable();
             $table->timestamps();
         });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('laravel_scandocument_data');
     }
 };
