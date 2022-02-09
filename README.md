@@ -12,11 +12,17 @@ composer require webmavens/laravelscandocument
 
 ## Usage
 
-- Please create SNS topic in your amazon account.How to create one ? Please check out this [link](https://docs.aws.amazon.com/textract/latest/dg/api-async-roles.html#api-async-roles-all-topics).
+- Please create SNS topic in your amazon account.
 
-- Please add subscribe url to SNS topic below.
+- How to create one ? 
 
-** Note :- Please do not set up raw message delivery for callback url. **
+* Please create IAM Role for textract. Follow this [link](https://docs.aws.amazon.com/textract/latest/dg/api-async-roles.html#api-async-roles-all-topics).
+
+* Please create SNS topic by searching SNS in your aws account.
+
+* After creating topic, please add subscribe url to SNS topic below.
+
+**Note :- Please do not set up raw message delivery for callback url.**
 
 ```php
 https://{YOUR_DOMAIN_NAME}/textractCallback
@@ -48,7 +54,7 @@ $laravelScandocument = new Webmavens\LaravelScandocument();
 $response = $laravelScandocument->sendDocToScan($path,$jobtag); //$jobtag is optional.It should be string.
 ```
 
-- You will find scan document text in ** laravel_scandocument_data ** table.
+- You will find scan document text in **laravel_scandocument_data** table.
 
 ## Changelog
 
