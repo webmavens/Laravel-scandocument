@@ -10,7 +10,7 @@ class LaravelScandocument
 	public static function sendDocToScan($imgPath,$jobTag = null, $type = null)
 	{
         $jobId = '';
-        if ($type == 'Image') {
+        if ($type == 'Table') {
             $result = LaravelScandocumentService::sendDocForImage($imgPath,$jobTag);
             return $result;
         } else {
