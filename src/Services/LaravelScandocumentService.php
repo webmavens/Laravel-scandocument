@@ -88,24 +88,20 @@ Class LaravelScandocumentService
 		return $docContent;
 	}
 
-	public static function sendDocForImage($imgPath, $jobTag = null)
+	public static function sendDocForImage($contents, $jobTag = null)
 	{
 		try
 		{
 			$clientTextract = AwsCredentialsConfig::getTextractClient();
 			$client = new TextractClient($clientTextract);
-			// file read
-			$file = fopen($imgPath, "rb");
-        	$contents = fread($file, filesize($imgPath));
-        	fclose($file);
-
+			
 			$requestData = array();
 			if(is_null($jobTag)){
 				$jobTag = 'Image';
 			}
 	        $requestData = [
 	            'Document' => [
-                'Bytes' => $contents
+                	'Bytes' => $contents
             	],
             	'FeatureTypes' => ['TABLES'], // REQUIRED
 	        ];

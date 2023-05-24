@@ -12,6 +12,7 @@ class LaravelScandocument
         $jobId = '';
         if ($type == 'Image') {
             $result = LaravelScandocumentService::sendDocForImage($imgPath,$jobTag);
+            return $result;
         } else {
             $result = LaravelScandocumentService::sendDoc($imgPath,$jobTag);
             $laravelScandocument = new LaravelScandocumentData;
