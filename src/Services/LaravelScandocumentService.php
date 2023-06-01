@@ -19,11 +19,15 @@ Class LaravelScandocumentService
 			if(is_null($jobTag)){
 				$jobTag = 'Image';
 			}
+			$imageName = $imgPath;
+			if (stripos($imgPath, '://')) {
+				$imageName = basename($imgPath);
+			}
 	        $requestData =[
 	            'DocumentLocation' => [
 	                'S3Object' => [
 	                    'Bucket' => $configuration['bucket'],
-	                    'Name' => basename($imgPath)
+	                    'Name' => $imageName
 	                ],
 	            ],
 	            'JobTag' => $jobTag,
