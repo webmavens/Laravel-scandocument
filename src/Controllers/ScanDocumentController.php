@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
 use Aws\Sns\Exception\InvalidSnsMessageException;
+use Webmavens\LaravelScandocument\Events\ScanDocumentDataReceived;
 use Webmavens\LaravelScandocument\Models\LaravelScandocumentData;
 use Webmavens\LaravelScandocument\Services\LaravelScandocumentService;
 
@@ -37,6 +38,7 @@ Class ScanDocumentController extends BaseController
 									  ->update([
 									  	'data' => $docContent
 									  ]);
+				event(new ScanDocumentDataReceived($data['JobId']));
 			}
 		}
 		if ($message['Type'] === 'UnsubscribeConfirmation') {
