@@ -10,49 +10,67 @@ You can install the package via composer:
 composer require webmavens/laravelscandocument
 ```
 
-## Usage
-
-- Please create SNS topic in your amazon account.
-
-- How to create one ? 
-
-* Please create IAM Role for textract. Follow this [link](https://docs.aws.amazon.com/textract/latest/dg/api-async-roles.html#api-async-roles-all-topics).
-
-* Please create SNS topic by searching SNS in your aws account.
-
-* After creating topic, please add subscribe url to SNS topic below.
-
-**Note :- Please do not set up raw message delivery for callback url.**
-
-```php
-https://{YOUR_DOMAIN_NAME}/textractCallback
-```
-
-- Please add below parameters to your .env file.
-
-```php
-AWS_DEFAULT_REGION = 'YOUR_AWS_DEFAULT_REGION',
-AWS_ACCESS_KEY_ID = 'YOUR_AWS_ACCESS_KEY_ID',
-AWS_SECRET_ACCESS_KEY = 'YOUR_AWS_SECRET_ACCESS_KEY',
-AWS_BUCKET = 'YOUR_AWS_BUCKET',
-AWS_ARN_TOPIC_ID = 'YOUR_AWS_ARN_TOPIC_ID',
-AWS_SNS_TOPIC_ID = 'YOUR_AWS_SNS_TOPIC_ID',
-```
-
-- Please publish migrate file.
+Publish migrate file.
 
 ```php
 php artisan vendor:publish --tag="laravelscandocument-migrations"
 ```
 
+```php
+php artisan migrate
+```
+
+## AWS Setup (Automatic)
+
+This package includes a powerful command that will automatically create and configure all required AWS resources for you — including:
+
+- S3 Bucket (for document storage)
+- SNS Topic (for Textract notifications)
+- IAM Role (for Textract permissions)
+- IAM User (with access keys)
+
+All credentials and ARNs will be automatically written into your .env file.
+
+## Run the setup command
+
+```php
+php artisan aws:setup
+```
+
+You’ll be asked for your AWS Admin Access Key, Secret Key, and Region.
+
+Once the command completes, it will output details of the created AWS resources and save the following environment variables automatically:
+
+```php
+AWS_ACCESS_KEY_ID=YOUR_NEW_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY=YOUR_NEW_SECRET_KEY
+AWS_DEFAULT_REGION=YOUR_REGION
+AWS_BUCKET=YOUR_BUCKET_NAME
+AWS_SNS_TOPIC_ID=YOUR_SNS_TOPIC_ARN
+AWS_ARN_TOPIC_ID=YOUR_TEXTRACT_ROLE_ARN
+```
+
+## Callback URL
+
+When the command creates your SNS topic, it automatically subscribes your callback endpoint:
+```php
+https://{YOUR_DOMAIN_NAME}/textractCallback
+```
+
+**Note :- Please do not set up raw message delivery for callback url.**
+
+## Usage
+
 - Send document to scan
 
 ```php
-$laravelScandocument = new Webmavens\LaravelScandocument();
-// $path = File path
+$laravelScandocument = new \Webmavens\LaravelScandocument\LaravelScandocument();
+// $path = File path from s3 eg. uploads/test.jpg
 // $jobtag = Type of document
-$response = $laravelScandocument->sendDocToScan($path,$jobtag); //$jobtag is optional.It should be string.
+$response = $laravelScandocument->sendDocToScan($path, $jobtag); //$jobtag is optional.It should be string.
 ```
+- This will upload your document to AWS Textract and process it automatically and return JOBID in response.
+- You’ll receive the extracted data via your SNS callback endpoint (/textractCallback).
 
 - You will find scan document text in **laravel_scandocument_data** table.
 
