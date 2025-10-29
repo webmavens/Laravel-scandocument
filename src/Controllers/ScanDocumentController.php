@@ -25,13 +25,16 @@ Class ScanDocumentController extends BaseController
 		   error_log('SNS Message Validation Error: ' . $e->getMessage());
 		   die();
 		}
+
 		if ($message['Type'] === 'SubscriptionConfirmation') {
 		   // Confirm the subscription by sending a GET request to the SubscribeURL
 		   file_get_contents($message['SubscribeURL']);
 		}
+
 		if ($message['Type'] === 'Notification') {
 			$data = json_decode($message['Message'], true);
-			if(isset($data['JobId']) && $data['JobId'] != ''){
+
+			if (isset($data['JobId']) && $data['JobId'] != '') {
 				$result = LaravelScandocumentService::getContent($data['JobId']);
 				$docContent = LaravelScandocumentService::extractLinesFromDoc($result);
 				LaravelScandocumentData::where('jobid', $data['JobId'])
@@ -41,10 +44,12 @@ Class ScanDocumentController extends BaseController
 				event(new ScanDocumentDataReceived($data['JobId']));
 			}
 		}
+
 		if ($message['Type'] === 'UnsubscribeConfirmation') {
 		    // provided as the message's SubscribeURL field.
 		    file_get_contents($message['SubscribeURL']);
 		}
+
 		return true;
 	}
 }
